@@ -1,0 +1,25 @@
+spring:
+  profiles:
+    active: local
+  datasource:
+    master:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3306/test_db?serverTimezone=UTC&characterEncoding=UTF-8&useSSL=false&useUnicode=true&allowMultiQueries=true&autoReconnect=true&useConnectionPlugins=false&enableClusterAwareFailover=false
+      username: root
+      password: password
+    slave:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3308/test_db?serverTimezone=UTC&characterEncoding=UTF-8&useSSL=false&useUnicode=true&allowMultiQueries=true&autoReconnect=true&useConnectionPlugins=false&enableClusterAwareFailover=false
+      username: root
+      password: password
+  jpa:
+    hibernate:
+      ddl-auto: none
+    generate-ddl: false
+    show-sql: true
+    database: mysql
+
+
+data-go-kr:
+  auth-key: your encoding key
+  holiday-url: https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo
