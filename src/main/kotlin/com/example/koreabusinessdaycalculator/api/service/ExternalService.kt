@@ -2,7 +2,7 @@ package com.example.koreabusinessdaycalculator.api.service
 
 import com.example.koreabusinessdaycalculator.api.exception.PublicOpenApiResponseErrorException
 import com.example.koreabusinessdaycalculator.api.exception.PublicOpenApiResponseNotFoundException
-import com.example.koreabusinessdaycalculator.api.model.external.HolidayDataRes
+import com.example.koreabusinessdaycalculator.api.model.openapi.HolidayDataRes
 import com.example.koreabusinessdaycalculator.properties.OpenApiProperties
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
