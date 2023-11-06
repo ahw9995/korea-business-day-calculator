@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.CollectionUtils
 
 @Service
-@Transactional(readOnly = true)
 class HolidayBatchService(
     private val holidayExternalService: HolidayExternalService,
     private val holidayDataService: HolidayDataService
@@ -47,7 +46,7 @@ class HolidayBatchService(
             var newItem = true
 
             for (holidayCalendar in holidayCalendars) {
-                if (holiday.locdate.toString() == holidayCalendar.holidayDate) {
+                if (holiday.locdate.toString() == holidayCalendar.fullDate) {
                     newItem = false
                     continue
                 }

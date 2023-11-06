@@ -20,29 +20,29 @@ import javax.sql.DataSource
 )
 class DataSourceConfig {
 
-    @Bean("masterDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.master")
-    fun masterDataSource(): DataSource {
+    @Bean("writeDataSource")
+    @ConfigurationProperties(prefix = "spring.datasource.write")
+    fun writeDataSource(): DataSource {
         return DataSourceBuilder.create().type(HikariDataSource::class.java).build()
     }
 
-    @Bean("slaveDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.slave")
-    fun slaveDataSource(): DataSource {
+    @Bean("readDataSource")
+    @ConfigurationProperties(prefix = "spring.datasource.read")
+    fun readDataSource(): DataSource {
         return DataSourceBuilder.create().type(HikariDataSource::class.java).build()
             .apply { isReadOnly = true }
     }
 
     @Bean
-    @ConditionalOnBean(name = ["masterDataSource", "slaveDataSource"])
+    @ConditionalOnBean(name = ["writeDataSource", "readDataSource"])
     fun routingDataSource(
-        @Qualifier("masterDataSource") masterDataSource: DataSource,
-        @Qualifier("slaveDataSource") slaveDataSource: DataSource
+        @Qualifier("writeDataSource") writeDataSource: DataSource,
+        @Qualifier("readDataSource") readDataSource: DataSource
     ): DataSource {
         val routingDataSource = RoutingDataSource()
-        val dataSources: Map<Any, Any> = mapOf("master" to masterDataSource, "slave" to slaveDataSource)
+        val dataSources: Map<Any, Any> = mapOf("write" to writeDataSource, "read" to readDataSource)
         routingDataSource.setTargetDataSources(dataSources)
-        routingDataSource.setDefaultTargetDataSource(masterDataSource)
+        routingDataSource.setDefaultTargetDataSource(writeDataSource)
         return routingDataSource
     }
 
@@ -50,15 +50,4 @@ class DataSourceConfig {
     @Bean(name = ["currentDataSource"])
     @ConditionalOnBean(name = ["routingDataSource"])
     fun currentDataSource(routingDataSource: DataSource) = LazyConnectionDataSourceProxy(routingDataSource)
-
-//    @Primary
-//    @Bean(name = ["entityManagerFactory"])
-//    fun entityManagerFactory(
-//        @Qualifier("currentDataSource") currentDataSource: DataSource
-//    ): LocalContainerEntityManagerFactoryBean {
-//        val entityManagerFactory = LocalContainerEntityManagerFactoryBean()
-//        entityManagerFactory.dataSource = currentDataSource
-//        entityManagerFactory.jpaVendorAdapter = HibernateJpaVendorAdapter()
-//        return entityManagerFactory
-//    }
 }

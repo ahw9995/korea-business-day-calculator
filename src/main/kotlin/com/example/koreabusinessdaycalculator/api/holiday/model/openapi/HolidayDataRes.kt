@@ -59,7 +59,7 @@ data class HolidayDataRes(
             return HolidayCalendar(
                 fullDate = date,
                 holidayYear = localDate.year.toString(),
-                holidayDate = String.format("%02d", localDate.dayOfMonth),
+                holidayDate = String.format("%02d%02d", localDate.monthValue, localDate.dayOfMonth),
                 dateKind = holiday.dateKind,
                 dateName = holiday.dateName,
                 enableYn = "y"

@@ -5,5 +5,5 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 class RoutingDataSource : AbstractRoutingDataSource() {
     override fun determineCurrentLookupKey() =
-        if (TransactionSynchronizationManager.isCurrentTransactionReadOnly()) "slave" else "master"
+        if (TransactionSynchronizationManager.isCurrentTransactionReadOnly()) "read" else "write"
 }
