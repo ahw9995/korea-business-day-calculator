@@ -3,7 +3,6 @@ package com.example.koreabusinessdaycalculator.api.holiday.model.openapi
 import com.example.koreabusinessdaycalculator.api.holiday.model.entity.HolidayCalendar
 import com.example.koreabusinessdaycalculator.config.annotation.NoArgs
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @NoArgs
@@ -60,13 +59,11 @@ data class HolidayDataRes(
             return HolidayCalendar(
                 fullDate = date,
                 holidayYear = localDate.year.toString(),
-                holidayDate = localDate.dayOfMonth.toString(),
+                holidayDate = String.format("%02d", localDate.dayOfMonth),
                 dateKind = holiday.dateKind,
                 dateName = holiday.dateName,
-                enableYn = "y",
-                createdAt = LocalDateTime.now()
+                enableYn = "y"
             )
-
         }
     }
 

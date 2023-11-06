@@ -13,6 +13,7 @@ class HolidayBatchService(
     private val holidayDataService: HolidayDataService
 ) {
 
+    @Transactional
     fun updateHolidays() {
         val holidayDataRes = holidayExternalService.getHolidays()
 
@@ -22,8 +23,7 @@ class HolidayBatchService(
 
         // 신규일 경우
         if (CollectionUtils.isEmpty(holidayCalendars)) {
-            val calendars = HolidayDataRes.toEntities(holidays)
-            addHoliday(calendars)
+            holidayDataService.saveHolidays(HolidayDataRes.toEntities(holidays))
             return
         }
 
@@ -31,12 +31,8 @@ class HolidayBatchService(
         val newHolidayCalendar = findNewHoliday(holidays, holidayCalendars!!)
 
         if (newHolidayCalendar.isNotEmpty()) {
-            addHoliday(newHolidayCalendar)
+            holidayDataService.saveHolidays(newHolidayCalendar)
         }
-    }
-
-    fun addHoliday(holidayCalendars: List<HolidayCalendar>) {
-        holidayDataService.saveHolidays(holidayCalendars)
     }
 
     private fun findNewHoliday(
