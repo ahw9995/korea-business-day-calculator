@@ -1,4 +1,4 @@
-package com.example.koreabusinessdaycalculator.api.exception
+package com.example.koreabusinessdaycalculator.api.common.exception
 
 enum class ErrorMessageType(val code: String, val message: String) {
 

@@ -1,4 +1,6 @@
-package com.example.koreabusinessdaycalculator.api.exception
+package com.example.koreabusinessdaycalculator.api.holiday.exception
+
+import com.example.koreabusinessdaycalculator.api.common.exception.ErrorMessageType
 
 data class PublicOpenApiResponseNotFoundException(
     override val message: String,

@@ -1,6 +1,6 @@
-package com.example.koreabusinessdaycalculator.api.model.common
+package com.example.koreabusinessdaycalculator.api.common.model
 
-import com.example.koreabusinessdaycalculator.api.exception.ErrorMessageType
+import com.example.koreabusinessdaycalculator.api.common.exception.ErrorMessageType
 
 
 data class ResultObject(var code: String, var message: String) {

@@ -1,8 +1,8 @@
-package com.example.koreabusinessdaycalculator.api.service
+package com.example.koreabusinessdaycalculator.api.holiday.service
 
-import com.example.koreabusinessdaycalculator.api.exception.PublicOpenApiResponseErrorException
-import com.example.koreabusinessdaycalculator.api.exception.PublicOpenApiResponseNotFoundException
-import com.example.koreabusinessdaycalculator.api.model.openapi.HolidayDataRes
+import com.example.koreabusinessdaycalculator.api.holiday.exception.PublicOpenApiResponseErrorException
+import com.example.koreabusinessdaycalculator.api.holiday.exception.PublicOpenApiResponseNotFoundException
+import com.example.koreabusinessdaycalculator.api.holiday.model.openapi.HolidayDataRes
 import com.example.koreabusinessdaycalculator.properties.OpenApiProperties
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -15,7 +15,7 @@ import java.time.Duration
 import java.time.LocalDate
 
 @Service
-class ExternalService(private val openApiProperties: OpenApiProperties) {
+class HolidayExternalService(private val openApiProperties: OpenApiProperties) {
 
     fun getHolidays(): HolidayDataRes {
 

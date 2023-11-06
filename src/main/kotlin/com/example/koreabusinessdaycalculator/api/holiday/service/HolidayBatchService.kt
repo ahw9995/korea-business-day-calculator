@@ -1,0 +1,68 @@
+package com.example.koreabusinessdaycalculator.api.holiday.service
+
+import com.example.koreabusinessdaycalculator.api.holiday.model.entity.HolidayCalendar
+import com.example.koreabusinessdaycalculator.api.holiday.model.openapi.HolidayDataRes
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import org.springframework.util.CollectionUtils
+
+@Service
+@Transactional(readOnly = true)
+class HolidayBatchService(
+    private val holidayExternalService: HolidayExternalService,
+    private val holidayDataService: HolidayDataService
+) {
+
+    fun updateHolidays() {
+        val holidayDataRes = holidayExternalService.getHolidays()
+
+        val holidays = holidayDataRes.response.body.items.item
+
+        val holidayCalendars = holidayDataService.getHolidays()
+
+        // 신규일 경우
+        if (CollectionUtils.isEmpty(holidayCalendars)) {
+            val calendars = HolidayDataRes.toEntities(holidays)
+            addHoliday(calendars)
+            return
+        }
+
+        // 추가일 업데이트
+        val newHolidayCalendar = findNewHoliday(holidays, holidayCalendars!!)
+
+        if (newHolidayCalendar.isNotEmpty()) {
+            addHoliday(newHolidayCalendar)
+        }
+    }
+
+    fun addHoliday(holidayCalendars: List<HolidayCalendar>) {
+        holidayDataService.saveHolidays(holidayCalendars)
+    }
+
+    private fun findNewHoliday(
+        holidays: List<HolidayDataRes.Holiday>,
+        holidayCalendars: List<HolidayCalendar>
+    ): List<HolidayCalendar> {
+
+        val newHolidayCalendars: MutableList<HolidayCalendar> = mutableListOf()
+
+        for (holiday in holidays) {
+
+            var newItem = true
+
+            for (holidayCalendar in holidayCalendars) {
+                if (holiday.locdate.toString() == holidayCalendar.holidayDate) {
+                    newItem = false
+                    continue
+                }
+            }
+
+            if (newItem) {
+                newHolidayCalendars.add(HolidayDataRes.toEntity(holiday))
+            }
+
+        }
+
+        return newHolidayCalendars
+    }
+}

@@ -1,4 +1,4 @@
-package com.example.koreabusinessdaycalculator.api.exception
+package com.example.koreabusinessdaycalculator.api.holiday.exception
 
 data class PublicOpenApiResponseErrorException(
     override val message: String,

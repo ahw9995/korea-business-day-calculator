@@ -1,4 +1,4 @@
-package com.example.koreabusinessdaycalculator.api.model.common
+package com.example.koreabusinessdaycalculator.api.common.model
 
 data class ResponseObject<T> (
     val data: T?,

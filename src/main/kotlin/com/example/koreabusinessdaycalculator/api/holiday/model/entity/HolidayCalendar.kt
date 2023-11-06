@@ -1,4 +1,4 @@
-package com.example.koreabusinessdaycalculator.api.model.entity
+package com.example.koreabusinessdaycalculator.api.holiday.model.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -8,6 +8,7 @@ import java.time.LocalDateTime
 @Entity(name = "holiday_calendar")
 data class HolidayCalendar(
  @Id
+ @Column(name = "full_date", nullable = false)
  val fullDate: String,
  @Column(name = "holiday_year", nullable = false)
  val holidayYear: String,

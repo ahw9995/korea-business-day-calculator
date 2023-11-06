@@ -1,7 +1,9 @@
-package com.example.koreabusinessdaycalculator.api.exception
+package com.example.koreabusinessdaycalculator.api.common.exception
 
-import com.example.koreabusinessdaycalculator.api.model.common.ResponseObject
-import com.example.koreabusinessdaycalculator.api.model.common.ResultObject
+import com.example.koreabusinessdaycalculator.api.common.model.ResponseObject
+import com.example.koreabusinessdaycalculator.api.common.model.ResultObject
+import com.example.koreabusinessdaycalculator.api.holiday.exception.PublicOpenApiResponseErrorException
+import com.example.koreabusinessdaycalculator.api.holiday.exception.PublicOpenApiResponseNotFoundException
 import mu.KotlinLogging
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
