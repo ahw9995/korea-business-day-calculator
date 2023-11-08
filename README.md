@@ -7,6 +7,24 @@
 
 영업일 계산은 현재일 기준 이전 x일, 이후 x일로 계산됩니다.
 
+## 테이블 정보
+```
+create table holiday_calendar
+(
+    full_date    varchar(8)       not null comment '공휴일'
+        primary key,
+    holiday_year varchar(4)       not null comment '공휴일 연도',
+    holiday_date varchar(4)       not null comment '공휴일 일자',
+    date_name    varchar(50)      not null comment '공휴일 명칭',
+    date_kind    varchar(2)       not null comment '항목명(국경일, 기념일, 24절기, 잡절)',
+    enable_yn    char default 'y' not null comment '사용유무',
+    created_at   timestamp        not null comment '등록일',
+    updated_at   timestamp        not null comment '수정일'
+);
+
+create index holiday_calendar_idx_01
+    on holiday_calendar (holiday_year);
+```
 
 ## API
 Swagger-ui: domain/swagger-ui (localhost:8080/swagger-ui)
