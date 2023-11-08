@@ -3,17 +3,34 @@ package com.example.koreabusinessdaycalculator.api.holiday.service
 import com.example.koreabusinessdaycalculator.api.holiday.model.CalculateType
 import org.springframework.stereotype.Service
 import org.springframework.util.CollectionUtils
+import org.springframework.util.StringUtils
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Service
-class HolidayCalculateService(private val holidayDataService: HolidayDataService) {
+class BusinessDayCalculatorService(private val holidayDataService: HolidayDataService) {
+
+    fun calculatorBusinessDay(type: String, day: Int, date: String?): LocalDate {
+
+        val calculateType = CalculateType.findType(type)
+
+        val calculateDate = if (StringUtils.hasText(date)) LocalDate.parse(
+            date,
+            DateTimeFormatter.ofPattern("yyyyMMdd")
+        ) else LocalDate.now()
+
+        return when (calculateType) {
+            CalculateType.BEFORE -> before(day, calculateDate)
+            CalculateType.AFTER -> after(day, calculateDate)
+        }
+    }
 
     /**
      * 현재일 기준 xx 영업일 이전
      *
      */
     fun beforeFromCurrentDate(day: Int): LocalDate {
-        return this.calculate(CalculateType.BEFORE, day, LocalDate.now())
+        return this.calculator(CalculateType.BEFORE, day, LocalDate.now())
     }
 
     /**
@@ -21,7 +38,7 @@ class HolidayCalculateService(private val holidayDataService: HolidayDataService
      *
      */
     fun afterFromCurrentDate(day: Int): LocalDate {
-        return this.calculate(CalculateType.AFTER, day, LocalDate.now())
+        return this.calculator(CalculateType.AFTER, day, LocalDate.now())
     }
 
     /**
@@ -29,7 +46,7 @@ class HolidayCalculateService(private val holidayDataService: HolidayDataService
      *
      */
     fun before(day: Int, date: LocalDate): LocalDate {
-        return this.calculate(CalculateType.BEFORE, day, date)
+        return this.calculator(CalculateType.BEFORE, day, date)
     }
 
     /**
@@ -37,7 +54,7 @@ class HolidayCalculateService(private val holidayDataService: HolidayDataService
      *
      */
     fun after(day: Int, date: LocalDate): LocalDate {
-        return this.calculate(CalculateType.AFTER, day, date)
+        return this.calculator(CalculateType.AFTER, day, date)
     }
 
     private fun checkWeekend(date: LocalDate): Boolean {
@@ -45,7 +62,7 @@ class HolidayCalculateService(private val holidayDataService: HolidayDataService
         return 6 == dayValue || 7 == dayValue
     }
 
-    private fun calculate(calculateType: CalculateType, day: Int, date: LocalDate): LocalDate {
+    private fun calculator(calculateType: CalculateType, day: Int, date: LocalDate): LocalDate {
 
         val holidayCalendar = holidayDataService.getHolidaysToLocalDate()
 
@@ -65,17 +82,13 @@ class HolidayCalculateService(private val holidayDataService: HolidayDataService
                 continue
             }
 
-                count--
+            count--
         }
 
         plusDay += day
 
         return if (CalculateType.AFTER == calculateType) date.plusDays(plusDay.toLong())
         else date.minusDays(plusDay.toLong())
-    }
-
-    private fun checkWeekendCurrentDate(): Boolean {
-        return checkWeekend(LocalDate.now())
     }
 
     private fun checkHoliday(holidays: List<LocalDate>, date: LocalDate): Boolean {

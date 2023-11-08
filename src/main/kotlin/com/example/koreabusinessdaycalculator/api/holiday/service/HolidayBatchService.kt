@@ -18,7 +18,7 @@ class HolidayBatchService(
 
         val holidays = holidayDataRes.response.body.items.item
 
-        val holidayCalendars = holidayDataService.getHolidays()
+        val holidayCalendars = holidayDataService.getHolidaysCurrentYear()
 
         // 신규일 경우
         if (CollectionUtils.isEmpty(holidayCalendars)) {

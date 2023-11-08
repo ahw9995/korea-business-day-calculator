@@ -57,6 +57,10 @@ dependencies {
 
     // WebClient
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+    // swagger
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+
 }
 
 kapt {

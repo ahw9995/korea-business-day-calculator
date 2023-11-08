@@ -23,5 +23,10 @@ spring:
         format_sql: true
 
 data-go-kr:
-  auth-key: your encoding key
+  auth-key: your encoding code
   holiday-url: https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo
+springdoc:
+  api-docs:
+    path: /docs
+  swagger-ui:
+    path: /swagger-ui

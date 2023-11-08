@@ -1,5 +1,6 @@
 package com.example.koreabusinessdaycalculator.api.holiday.service
 
+import com.example.koreabusinessdaycalculator.api.holiday.model.HolidayRes
 import com.example.koreabusinessdaycalculator.api.holiday.model.entity.HolidayCalendar
 import com.example.koreabusinessdaycalculator.api.holiday.repository.HolidayRepository
 import org.springframework.stereotype.Service
@@ -15,7 +16,11 @@ class HolidayDataService(
     private val holidayRepository: HolidayRepository
 ) {
 
-    fun getHolidays(): List<HolidayCalendar>? {
+    fun getHolidays(): HolidayRes {
+        return HolidayRes(HolidayRes.fromEntities(this.getHolidaysCurrentYear()))
+    }
+
+    fun getHolidaysCurrentYear(): List<HolidayCalendar>? {
         return holidayRepository.findAllByYear(LocalDate.now().year.toString())
     }
 
@@ -26,7 +31,7 @@ class HolidayDataService(
 
     fun getHolidaysToLocalDate(): List<LocalDate> {
 
-        val holidayCalendars = this.getHolidays()
+        val holidayCalendars = this.getHolidaysCurrentYear()
 
         if (CollectionUtils.isEmpty(holidayCalendars)) {
             return Collections.emptyList()
@@ -34,7 +39,7 @@ class HolidayDataService(
 
         return holidayCalendars!!.map {
             LocalDate.parse(
-                it.holidayDate,
+                it.fullDate,
                 DateTimeFormatter.ofPattern("yyyyMMdd")
             )
         }
