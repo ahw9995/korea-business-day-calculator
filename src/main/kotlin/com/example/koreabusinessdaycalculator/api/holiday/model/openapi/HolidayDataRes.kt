@@ -9,19 +9,16 @@ import java.time.format.DateTimeFormatter
 data class HolidayDataRes(
     val response: Response
 ) {
-    @NoArgs
     data class Response(
         val header: Header,
         val body: Body
     )
 
-    @NoArgs
     data class Header(
         val resultCode: String,
         val resultMsg: String
     )
 
-    @NoArgs
     data class Body(
         val items: Items,
         val numOfRows: Int,
@@ -29,12 +26,10 @@ data class HolidayDataRes(
         val totalCount: Int
     )
 
-    @NoArgs
     data class Items(
         val item: List<Holiday>
     )
 
-    @NoArgs
     data class Holiday(
         val dateKind: String,
         val dateName: String,
